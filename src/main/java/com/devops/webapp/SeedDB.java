@@ -20,7 +20,7 @@ public class SeedDB {
             Post post1 = postRepo.save(new Post("title1","This is our 1st post",profile));
             Post post2 = postRepo.save(new Post("title2","This is our 2nd post",profile));
             profile.setPosts(Arrays.asList(post1,post2));
-            logger.info("" + profile);
+            logger.info("" + profile+"Saar");
         };
     }
 }
