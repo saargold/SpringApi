@@ -1,0 +1,192 @@
+REST - Representational State Transfer
+
+1. An architectural approach to designing web-based services and NOT
+a binding contract between all companies
+
+2. Every company defines the set of CONSTRAINTS to access the resources and
+how to define the connections between them
+
+3. In general, A resource is a stream of bytes that we can access using a URI
+for example: /main.htm - the resource is an HTML document whose name is main
+and is located in the outermost directory
+
+URL - use a URL to get a resource over the internet:
+URL (Uniform Resource Location) is composed of URI + protocol + Domain
+protocol + domain is essentially how to access the resource
+
+"ftp.engineeringserver.mycompany.com/department1/file.txt" - URL Example
+/department1/file.txt - this is the URI
+ftp:// - this is the protocol
+domain engineeringserver.mycompany.com
+another URL example: when we want to access a resource using HTTP protocol
+
+URL:
+http://www.wikipedia.org/main.htm
+URI - /main.htm
+domain -  wikipedia.org
+protocol - http
+
+one other thing: specify the HTTP request method
+Using a URL, we can open an HTTP connection over TCP
+GET http://www.wikipedia.org/main.htm
+
+4. A resource representation: is also a stream of bytes that describes the resource:
+for example: JSON, String, HTML doc and more
+for example, our ExceptionHandler returned a String representing an exception of product
+not found
+
+5. Constraints:
+A. User ought to be able to "move" between representations of the resources using
+links, preferably in HAL format.
+B. Decoupling between service provider and clients - representation of the object does
+not have to be same as the original format in server-side
+
+{
+    "id": 1,
+    "productName": "AirPods v3 2021",
+    "category": "Headphones",
+    "price": 250.0,
+    "_links": {
+        "self": {
+            "href": "http://localhost:8080/products/1"
+        },
+        "back to all products": {
+            "href": "http://localhost:8080/allproducts"
+        }
+    }
+}
+
+C.Stateless - each request is not dependant on a previous request
+(This is derived from the properties of the HTTP protocol)
+However, each request ought to include all the required for the response
+How can we theoretically make HTTP protocol stateful?
+Think of HTTP connection types:
+ 1. HTTP non-persistent
+ 2. HTTP persistent
+    2.A HTTP persistent with pipelining
+
+This does not mean the server can't hold information about the client:
+1. Cookies
+2. Session ID
+3. Hidden variables
+...
+4. finger-printing attribution (not allowed by most organizations)
+
+
+ 1. HTTP non-persistent:
+     We wish to send an HTTP GET request to http://www.ynet.co.il
+     We need to initiate a TCP connection with the server
+     thus, we need a client Socket object
+     we create a TCP socket, initiate TCP connection, open an HTTP connection
+     to the server and send the request
+     The server will send an HTML document with referenced objects
+     (Images,JS scripts, audio files, text...)
+     for every referenced object we need to send an HTTP request,
+     which will be executed using a different socket
+  2. HTTP persistent:
+    we can send multiple requests over the same connection
+    for every referenced object we can send a request but wait for the response
+    after response arrives, we can send the next one
+
+ theoretically if we send multiple request over the same socket, this protocol can
+ be stateful.
+
+
+
+
+
+D. Caching is possible but is not mandatory
+
+E. Uniform format (as much as possible)
+
+If you are including other resources embedded in the resource you are representing,
+you will provide an _embedded property, containing the named resources.
+Each resource will be structured as a HAL resource and contain
+at least a _links property with a self relational link.
+
+{
+    "_embedded": {
+        "productList": [
+            {
+                "id": 1,
+                "productName": "AirPods v3 2021",
+                "category": "Headphones",
+                "price": 250.0,
+                "amount": null,
+                "_links": {
+                    "self": {
+                        "href": "http://localhost:8080/products/1"
+                    },
+                    "back to all products": {
+                        "href": "http://localhost:8080/products"
+                    }
+                }
+            },
+            {
+                "id": 2,
+                "productName": "iPhone 13",
+                "category": "Cellphones",
+                "price": 1000.0,
+                "amount": null,
+                "_links": {
+                    "self": {
+                        "href": "http://localhost:8080/products/2"
+                    },
+                    "back to all products": {
+                        "href": "http://localhost:8080/products"
+                    }
+                }
+            },
+            {
+                "id": 3,
+                "productName": "Macbook Pro 13 2021",
+                "category": "Laptops",
+                "price": 1500.0,
+                "amount": null,
+                "_links": {
+                    "self": {
+                        "href": "http://localhost:8080/products/3"
+                    },
+                    "back to all products": {
+                        "href": "http://localhost:8080/products"
+                    }
+                }
+            },
+            {
+                "id": 4,
+                "productName": "Samsung Galaxy 22",
+                "category": "Cellphones",
+                "price": 1500.0,
+                "amount": null,
+                "_links": {
+                    "self": {
+                        "href": "http://localhost:8080/products/4"
+                    },
+                    "back to all products": {
+                        "href": "http://localhost:8080/products"
+                    }
+                }
+            },
+            {
+                "id": 5,
+                "productName": "Boeing Secure",
+                "category": "Cellphones",
+                "price": 2500.0,
+                "amount": null,
+                "_links": {
+                    "self": {
+                        "href": "http://localhost:8080/products/5"
+                    },
+                    "back to all products": {
+                        "href": "http://localhost:8080/products"
+                    }
+                }
+            }
+        ]
+    },
+    "_links": {
+        "self": {
+            "href": "http://localhost:8080/products"
+        }
+    }
+}

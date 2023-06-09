@@ -1,0 +1,29 @@
+Serialization:
+Take an object and convert its state (current values of data members) into a stream of bytes
+In Java:
+var input = ObjectInputStream(specificClientSocket.getInputStream)
+var inputMap= (DroneMap)input.readObject();
+
+Deserialization:
+Take a byte stream and convert it back to its original form (Object/primitive)
+var output = ObjectOutputStream(specificClientSocket.getOutputStream)
+output.writeObject(List<Path> paths)
+
+class nameOfClass implements Serializable{
+    private static final long serialVersionUID = 1L;
+}
+
+We use serialization when transferring data over an I/0 channel such as files,sockets, etc.
+
+In general, we need to implement the Serializable:
+
+
+
+Serialization in context Web APIs:
+Take an object and convert its state (current values of data members) into a textual representation (Some sort of JSON)
+
+
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
