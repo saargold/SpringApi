@@ -1,18 +1,19 @@
 package com.devops.webapp;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @Entity
 @NoArgsConstructor
 public class Product  implements Comparable<Product>{
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Override
@@ -26,16 +27,16 @@ public class Product  implements Comparable<Product>{
     private String category;
 
     private String image;
-    @JsonIgnore
-
-//    @JsonIgnore @ManyToMany(mappedBy = "products")
-//    private List<StoreOrder> storeOrders = new ArrayList<>();
+    private Double rating;
 
 
-    public Product(String title, double price, String category, String image) {
+    @JsonIgnore @ManyToMany
+    private List<Order> orders  =new ArrayList<>();;
+    public Product(String title, double price, String category, String image, Double rating) {
         this.title = title;
         this.price = price;
         this.category = category;
         this.image = image;
+        this.rating=rating;
     }
 }

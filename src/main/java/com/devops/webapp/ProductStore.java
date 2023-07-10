@@ -15,6 +15,8 @@ public class ProductStore {
     private String category;
 
     private String image;
+    private Rating rating;
+
 
     @Override
     public String toString() {
@@ -24,6 +26,8 @@ public class ProductStore {
                 ", price=" + this.getPrice() +
                 ", category='" + this.getCategory() + '\'' +
                 ", image='" + this.getImage() + '\'' +
+                ", rating='" + this.getRating().getRate() + '\''+
+
                 '}';
     }
 }

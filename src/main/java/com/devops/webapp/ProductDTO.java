@@ -18,7 +18,4 @@ public class ProductDTO {
         return this.product.getPrice();
     }
 
-    public String getSignature(){
-        return "Sold by NadavOrLTD";
-    }
 }

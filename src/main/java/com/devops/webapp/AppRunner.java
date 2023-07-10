@@ -26,7 +26,7 @@ public class AppRunner  implements CommandLineRunner {
 
         ProductStore[] products = futureProducts.get();
         for(ProductStore p: products){
-            productRepo.save(new Product(p.getTitle(),p.getPrice(),p.getCategory(),p.getImage()));
+            productRepo.save(new Product(p.getTitle(),p.getPrice(),p.getCategory(),p.getImage(),p.getRating().getRate()));
         }
 
     }
